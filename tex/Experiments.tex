@@ -1,0 +1,125 @@
+\vspace{-0.3cm}\section{EXPERIMENTS} \label{experiments}
+In this section, we first introduce our experimental settings. Then we evaluate the proposed approach in three aspects: the effectiveness of our learning method, as well as the performance of the learned distance function in recommendation task and image reranking task. Finally, we show some learning results and give some interesting insights of our distance learning method.
+\vspace{-0.2cm}\subsection{Experimental Setup}
+\subsubsection{Datasets}
+In our experiments, we have prepared three datasets, including:
+
+\textbf{Training dataset and test dataset.} To train the distance function and test the effectiveness of our distance learning method, we crawl the images and their social contextual information in Flickr through Flickr API. This dataset includes 101,496 images, 54,173 users, 6,439 groups and 35,844 tags in total. We crawl the data by the following criteria: first, we search for 500 hot queries\footnote{https://www.flickr.com/photos/tags/.}, such as sunset, portrait, etc. to obtain the seed images. Then the images that belong to the same user or group with the seed images are expanded. We crawl the social information of the images, including: the users who favor them, the groups that the images belong to, as well as the tags annotated to the images. Some images may have no favored users or interest groups. We divide this dataset into two parts: 80\% for training and 20\% for test.The social entities in the training and test datasets may have overlap. It will not impact the fairness of our experiments because we do not evaluate the similarity between training and test data in our method.
+
+\textbf{Recommendation dataset.} We also prepare a recommendation dataset for the application scenario of image recommendation. We select 1,793 users' favorite images in Flickr. The users selected must have at least 40 favorite images. For each user, we randomly select 20 images for training and 20 as ground truth for testing. Then we sample other 80 images from the whole image dataset as candidates. Each candidate image must have at least one tag that is the same as one of the ground truth images.
+
+\textbf{MSR dataset.} We utilize Bing Image Retrieval Grand Challenge (MSR) dataset \cite{click_bing} to prove that our distance learning method can improve the performance of image reranking.  Different from traditional image retrieval datesets, MSR dataset is based on user click data, which can capture not only semantic relevance but also human cognition.
+
+The first two datasets are crawled from Flickr because our methods rely on social behavioral infomation. However, to the best of our knowledge, there is no public benchmark including such information. In our image reranking method, we do not need any personalized information. Thus a public dataset is utilized to make our approach comparable to others.
+
+\vspace{-0.2cm}\subsubsection{Visual Features}
+Visual feature is an important setting in our method because it determines the performance of transfer learning. If there is no relationship between the used visual feature and the social similarity of the images, our method will not work. Although using multiple features may improve the performance, it will bring much higher complexity at the same time. The key point of this paper is distance learning but not feature selection. Therefore, we only use a simple and effective visual feature in our experiments. In our approach, local features are better than global features because local features represent images in object level, which can better reflect user interests.  Among the various local features, we utilize a Bag-of-Words (BoW) histogram based on SIFT descriptors \cite{bow, sift} in our experiments, which is one of the most widely used presentation of images. The SIFT descriptors are extracted by a VLFeat implementation \cite{vlfeat}. Then a hierarchical $k$-means visual vocabulary tree is constructed with 4 layers and 10 branches for each layer. After clustering, each leaf node in the vocabulary tree is defined as a visual word. An image is presented as the histogram of the visual words occurred. In our datasets, all images are rescaled to the normal size in Flickr for uniformity: the length of the longest edge is rescaled to 400 pixels.
+
+\vspace{-0.2cm}\subsubsection{Baselines}
+To demonstrate the advantages of our proposed distance learning approach \emph{SIDL}, we implement the following baseline methods for comparison.
+
+(1) \textbf{Euclidean distance.} When the BoW features are extracted, the Euclidean distance is commonly used to evaluate the image distance, i.e.:
+\vspace{-0.1cm} \begin{equation} \vspace{-0.1cm}
+d(x_i, x_j) = \sqrt{(x_i-x_j)^T (x_i - x_j)}.
+\end{equation}
+
+(2) \textbf{Jaccard similarity.} If we regard an image as a document, when it is presented as a bag of words, the Jaccard distance \cite{jaccard}, which is a set similarity function for documents can also be utilized:
+\vspace{-0.1cm} \begin{equation} \vspace{-0.1cm}
+sim(I_i,I_j) = \frac{|I_i \cap I_j|}{|I_i \cup I_j|},
+\end{equation}
+where $I_i$ denotes the $i^{th}$ image that is presented as a set of visual words. For it is a similarity function, we convert it to distance by negative exponent function if needed.
+
+(3) \textbf{TagProp \cite{tagprop}.} Guillaumin \emph{et al.} proposed a method named \emph{TagProp}  for image annotation. This method use metric learning technology to learn the image distance with respect to their tags.  Although the final output of this method is the tag relevance, it evaluates the pair-wise image similarity in the optimization process. In our experiments, we only use the results of image distance.
+
+(4) \textbf{LMNN \cite{lmnn}.} Weinberger \emph{et al.} proposed a metric learning method named Large Margin Nearest Neighbor (LMNN). \emph{LMNN} uses metric learning to reduce the margins of the nearest neighbors. It is designed for image classification, which relies on the pre-labeled data. For our training data do not contain the label of classification, we use the image classification benchmark Caltech101 \cite{c101} as the training dataset, which includes 102 categories, and 40 to 800 images per category. We select 30 images per category for training. Then, the trained \emph{Mahanalobis} distance function is compared to our method.
+
+(5) \textbf{social+LMNN.} In this baseline, we use the social similarity estimation in Equation \ref{social_sim} to select the nearest neighbor of an image, and then use \emph{LMNN} for optimization. Here we use this as a baseline to compare the metric learning optimization step in the same condition of social similarity estimation.
+
+In the area of image processing, there are a variety of methods for image search and recommendation. However, in this paper, we only want to prove that our cognition-based image distance performs better than the traditional image distance metrics. Thus we fix the Borda Fusion model in recommendation and PageRank model in reranking and use the above distance metrics as baselines.
+
+
+The code of our algorithm is realized in MATLAB 2010b. The toolbox of VLFeat \cite{vlfeat} is used for SIFT feature extraction and hierarchical $k$-means clustering of visual words. We use SeDuMi \cite{sedumi} toolbox as the solver of the proposed optimization problem.  All the experiments were conducted on a server with Intel(R) Xeon(R) CPU X5645 at 2.40 GHz on 24 cores, 192GB RAM and 64-bit Windows Server 2008 operating system.
+
+%需要注明 不和其他的recommendation还有search的方法比，因为本文需要证明的是distance learning的有效性。
+\vspace{-0.2cm}\subsection{Effectiveness of SIDL}
+The goal of our approach is to learn the social similarity in visual space. Thus, we first need to prove the feasibility of this idea. When we have learned a distance function from the training set, can this function reflect the social similarity in the test data? Here we evaluate the effectiveness in ranking because ranking order is much more important than absolute value in our problem. For a given image in the test dataset, we calculate the social similarity to the other images by Equation \ref{social_sim} and then can obtain a rank order as ground truth. On the other hand, we can calculate the image distance based on the learned distance function by Equation \ref{distance} and get another rank order of similar images. The consistency of these two orders can reflect the effectiveness of our method. We use $Kendall-\tau$ rank correlation \cite{tau} as the evaluation measure. Give two ranking sequence $X$ and $Y$. The $Kendall-\tau$ is defined as:
+\vspace{-0.1cm} \begin{equation} \vspace{-0.1cm}
+\tau = \frac{n_c - n_d}{\frac{1}{2}n(n-1)},
+\end{equation}
+where $n$ is the total number of images, $n_c$ is the number of concordant pairs and $n_d$ is the number of discordant pairs. A concordant is defined as the pair $(i, j)$ that satisfies $x_i \geq x_j$ when $y_i \geq y_j$ or $x_i \leq x_j$ when $y_i \leq y_j$. Otherwise, $(i,j)$ is a discordant pair. The scale of $Kendall-\tau$'s value is $[-1,1]$. If $X$ and $Y$ are the same, $\tau = 1$. If $X$ and $Y$ are completely inverted, $\tau=-1$.
+
+%介绍评价方法和评价指标
+In training process, we fix the value of $\delta$ and $\epsilon$ in Equation \ref{triple} as $\delta=0.7, \epsilon=0.1$. In this setting, an image in the training dataset has 179 socially similar images and about 70,000 socially dissimilar images in average. To reduce the complexity of our optimization process, for each image, we randomly select 200 socially dissimilar images in the triple selection step in Equation \ref{triple}. We use a 5-folds cross validation to tune the parameter $C$ in the Equation \ref{problem2}. The best performance of $\tau$ is obtained when $C=0.15$.
+
+In social similarity evaluation step, we need to discover what social factors are helpful in evaluating  social similarity. Therefore, before comparing our methods to the baselines, we first use different social factors to demonstrate their effects on the final performance. Figure \ref{effective_factor} illustrates the results.
+%调参数，C=0.15 给图，和部分social factor 对比给图
+\begin{figure}
+\centering
+\epsfig{file=effective_factor.eps, width=3in}
+\caption{The Performance on the test dataset in $Kendall-\tau$ using different social factors. ``U" denotes users, ``G" denotes groups and ``T" denotes tags.  }
+\label{effective_factor}
+\vspace{-0.3cm}\end{figure}
+
+Figure \ref{effective_factor} is generated by using different social factors to calculate the social similarity in Equation \ref{social_sim}. In Figure \ref{effective_factor}, ``U" denotes users, ``G" denotes groups, ``T" denotes tags and multiple symbols denotes using multiple social factors. When we use different factors, the value of $\delta$ and $\epsilon$ are adjusted at the same time to guarantee that the number of socially similar images is about 200 and the number of socially dissimilar images is about 70,000. In Figure \ref{effective_factor}, we can observe that our algorithm obtains the best performance when using ``UGT". It shows that all these factors are helpful to improve the performance. If we only use one factor, group is the best and user is the worst. This is because images in the same group are relatively concentrated in user interests but the images belong to the same user sometimes may be very diverse.   If we use two social factors, the best performance is obtained when using groups and tags. It is interesting that using group and user also has a not bad performance. It reflects that the knowledge of group and user has less overlap than  group and tag.
+
+We compare our method to the baselines to demonstrate the effectiveness. The results are illustrated in Figure \ref{effective_perform}.
+\begin{figure}
+\centering
+\epsfig{file=effective_perform.eps, width=3in}
+\caption{The performance on the test dataset in $Kendall-\tau$ of different image distance metrics.  }
+\label{effective_perform}
+\vspace{-0.3cm}\end{figure}
+%和baseline对比给图
+From Figure \ref{effective_perform}, it can be observed that the proposed \emph{SIDL} method achieves the best performance. In baseline methods, Euclidean distance and Jaccard similarity are unsupervised. The $\tau$ values of these metrics are less than 0.1, which means the rank orders are likely to be random.  \emph{LMNN} performs the worst among the four supervised methods. It is mainly due to the difference in the training datasets. In Flickr, most of the images are usually informal and noisy. However, images in Caltech101 dataset is well structured and have obvious objects. Besides, the amount of images in Caltech101 is only about $1/10$ scale of our Flickr training dataset.  The fact that \emph{social+LMNN} performs better than \emph{TagProp} shows that tag similarity in the training data cannot represent social similarity in the test data well.
+
+Both \emph{social+LMNN} and \emph{SIDL} use social and visual information. The difference between these two methods exists in the optimization step. In the training dataset, an image usually only has less than 200 socially similar images. Compared to the total 80,000 images, socially similarity is very sparse. Thus if two visual words A and B do not occur in any pair of socially similar images, we can learn nothing in metric learning process.  In \emph{SIDL}, we initialize the distance function as the Euclidean distance, for the images whose distance cannot be learned, their visual similarity is maintained. Besides, in Equation \ref{problem2}, we add reliability scores as coefficients to the relax variables, which can make the constraints of highly similar pairs more accurate.
+
+In this experiment, all the testing ground truth are based on the social similarity defined in Equation \ref{social_sim} because we only want to prove that it is effective to learn image distance of visual features from social similarity.  Thus we will demonstrate the effectiveness of our approach in real applications in the next section.
+\vspace{-0.2cm}\subsection{Performance in Image Recommendation and Image Reranking}
+Here we first show the performance of our method in the image recommendation task. In the image recommendation dataset, each user has $20$ images for training and $100$ for testing. In the $100$ testing images, $20$ should be recommended. For each image distance metric, we use the Borda Fusion model in Section \ref{sec_app} to calculate the voting points of the testing images according to their distance to the training images. Top $k$ images are returned as the recommendation results. Here we use $Precision@k$ and $Recall@k$ as the measures. The results are illustrated in Figure \ref{recommend}.
+\begin{figure}
+\centering
+\subfigure[Precision]{
+\epsfig{file=recommend_precision.eps, width=1.5in}
+}
+\subfigure[Recall]{
+\epsfig{file=recommend_recall.eps, width=1.5in}
+}
+\caption{The performance on recommendation dataset in (a) Precision@k and (b) Recall@k with different number of top $k$ images using different image distance metrics in our Borda-fushion based image recommendation model. }
+\label{recommend}
+\vspace{-0.3cm}\end{figure}
+In the figure, it can be seen that  \emph{SIDL} performs the best in both Precision and Recall for all $k$ values. If we recommend images randomly, the precision will be $0.2$. Similar to the last experiment, the result of Euclidean is near to random, which indicates the Euclidean distance of BoW features can hardly reflect the image similarity in recommendation task. The relative performance of the baselines is similar to the previous experiment except for \emph{LMNN} and \emph{TagProp}. In recommendation dataset, \emph{LMNN} performs better than \emph{TagProp}, which indicates the general category information might be effective than the specific tag information in recommendation task. Compared to \emph{social+LMNN}, \emph{SIDL} performs 10\% higher in Precision. It indicates the proposed metric learning optimization method has superiority to traditional \emph{LMNN} in embedding social information.
+
+To show the performance in the image reranking task, we use different distance metrics in the PageRank model in Section \ref{sec_app}. For each query in MSR dataset, a similarity graph is constructed for each metric. Then the PageRank score can be calculated by Equation \ref{reranking_eq}. Following the measurements in the grand challenge, we use Discounted Cumulated Gain of the top 25 images ($DCG@25$) to evaluate the performance. When the rank order is given, the $DCG@25$ for each query is calculated as:
+\vspace{-0.1cm}\begin{equation}\vspace{-0.1cm}
+DCG@25=0.01757\sum_{i=1}^{25}\frac{2^{rel_i -1}}{\log_2^{i+1}},
+\end{equation}
+where $rel_i$ is the relevance score of the $i^{th}$ ranked image (Excellent=3, Good=1, Bad=0), 0.1757 is to normalize the value of $DCG@25$ up to 1. Note that
+for the queries with less than $25$ images, we simply supply some ``Bad" images after the original ranking list. Figure \ref{reranking} shows the results.
+\begin{figure}
+\centering
+\epsfig{file=reranking.eps, width=3in}
+\caption{The performance on the MSR dataset in terms of DCG@25 with using different image distance metrics in the PageRank model. }
+\label{reranking}
+\vspace{-0.3cm}\end{figure}
+From Figure \ref{reranking}, we can observe that the Euclidean distance performs well in $DCG@25$, which is different with the previous results. It is mainly because for a given query, most of the images are visually similar. The visual words occurred are relatively concentrated. In this case, the Euclidean distance can measure the image similarity more accurate than the general images. Similar to the first experiment, \emph{TagProp} performs worse than \emph{LMNN}, which may be also caused by imbalanced training data. Based on the unsupervised PageRank model, our approach achieves $0.5017$ of $DCG@25$, which is comparable to the supervised methods reported in Multimedia Grand Challenge. It verifies the effectiveness of our approach in image reranking.
+
+\vspace{-0.2cm}\subsection{Show Case and Insights}
+In our approach, it is very interesting to observe the learned similarity from the user behavioral information. In the \emph{Mahanalobis} matrix $M$, the meaning of the $i^{th}$ diagonal element denotes the difference brought when we only add/delete the $i^{th}$ visual word in an image. Therefore, the value of the diagonal elements can be regarded as the weight of the corresponding visual words. Figure \ref{showcase1} illustrates four typical visual words with high weights in matrix $M$. Some representative images are presented at the same time. Among a huge amount of the images that include the visual word, we select the images where the visual word have similar meaning in semantic as the representative images. From Figure \ref{showcase1}, we can observe that the visual words that can represent characteristics of objects will obtain high weights in our distance learning approach, such as fruits of plants, petals, eyes of animals, branches of trees.
+
+ Figure \ref{showcase2} reflects another interesting phenomenon.
+ %In each row in Figure \ref{showcase2}, The first image and the second image are socially similar, as well as the first and the third are socially dissimilar. After learning, the visual words with high weights are labeled with red rectangles and the ones with low weights are labeled with green rectangles.
+ For the three images in the first row, the first one and the second one have a common visual word on the butterfly with high weight; the first one and the third one have a common visual word on the flower with low weight. In human cognition, it is natural that the first and the second are similar because the butterfly is the focus and the flower is not very important. Here the weight of visual word can reflect this well. In the second row, three images are all about dogs. The first and the second have both eyes; the first and the third have similar furs. In emotion level, the first two images give us a feeling of ``lovely" but the third image make us fell ``lonely". Eyes of the dogs indeed play an important role in the emotion of these images, which is consistent to the weights of visual words, too. Of course, the final image distance is not determined by these several visual words. Besides, due to the semantic gap, most of visual words do not correspond to an object. Here we just try to catch a glance of the relationship between the learning results and human cognition.
+\begin{figure*}\vspace{-0.3cm}
+\centering
+\epsfig{file=showcase_4.eps, width=6.1in, height = 2.1in}
+\vspace{-0.3cm}
+\caption{The illustration of the visual words with high weights in our approach. The location of the visual word is marked in a red rectangle in each image.}
+\label{showcase1}
+\vspace{-0.3cm}\end{figure*}
+\begin{figure}
+\centering
+\epsfig{file=showcase_3.eps, width=3.2in, height = 1.5in}
+\caption{The observations of the weight of visual words learned in our approach. In each row, The first image and the second image are socially similar, and the first and the third are socially dissimilar. Visual features with high weights are labeled with red rectangles and the ones with low weight are labeled with green rectangles.}
+\label{showcase2}
+\vspace{-0.3cm}\end{figure}

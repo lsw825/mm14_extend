@@ -1,0 +1,109 @@
+\vspace{-0.2cm}\section{SOCIAL EMBEDDING IMAGE DISTANCE LEARNING} \label{sec_app}
+
+When social similarity of images is estimated, our target is to learn an image distance function to reduce the distance of socially similar image and enlarge the distance of socially dissimilar images. In this section, we first introduce our proposed image distance learning method. Next, we give the algorithm of our approach and analyze the complexity. Finally, we design two applications based on the proposed image distance metric, including image recommendation and text-based image reranking.
+
+\vspace{-0.1cm}\subsection{Mahanalobis Distance Function}
+%通过欧氏距离引出马氏距离 介绍基本知识
+In traditional metric learning researches, \emph{Mahalanobis} Distance is a widely used metric function because it is very efficient in optimization and calculation, as well as effective enough in most problems. Although some kernel functions are proposed to improve the performance. We do not consider them because the metric function is not the main contribution of this work and it may make our method not scalable. Therefore, we use \emph{Mahalanobis} Distance to evaluate the image distance, which is defined as follows,
+\vspace{-0.1cm} \begin{equation} \vspace{-0.1cm}
+d_M(\mathnormal{x}_i, \mathnormal{x}_j) = \sqrt{(\mathnormal{x}_i - \mathnormal{x}_j)^TM(\mathnormal{x}_i - \mathnormal{x}_j)},
+\label{distance}
+\end{equation}
+where $M$ is the \emph{Mahalanobis} matrix, which needs to be learned in our problem; $\mathnormal{x}_i$ is the  visual feature vector of image $\mathcal{I}_i$. To guarantee $d$ to be a distance function, $M$ must be positive semidefinite, which is noted as $M \succeq 0$.
+
+%For $M\in R^{n \times n}$, there exists $L\in R^{n \times n}$, which makes $M=L^TL$. Thus, Equation \ref{distance} can be written as:
+%\vspace{-0.1cm} \begin{equation} \vspace{-0.1cm}
+%d_M(\mathnormal{x}_i, \mathnormal{x}_j) = \sqrt{(\mathnormal{y}_i - \mathnormal{y}_j)^T(\mathnormal{y}_i - \mathnormal{y}_j)},
+%\label{distance2}
+%\end{equation}
+%where $\mathnormal{y}_i = L\cdot \mathnormal{x}_i$. From Equation \ref{distance2}, we can easily observe that \emph{Mahalanobis} distance actually linearly maps original visual space to a new space.
+
+\vspace{-0.1cm}\subsection{Distance Learning with Social Constraints}
+In our metric learning approach, our goal is to learn the \emph{Mahanalobis} matrix $M$ from the social images, which makes the image distance $d_M(\mathnormal{x}_i, \mathnormal{x}_j)$ consistent to social similarity. i.e., the distance between socially similar images is close and the distance between socially dissimilar images is far.
+
+In metric learning, ``triple" is a widely used concept for optimization. In our approach, a ``triple" $<i, j, k>$ is defined as three images $I_i, I_j$ and $I_k$, where $I_i$ and $I_j$ are socially similar and $I_i$ and $I_k$ are socially dissimilar. Thus, we can train our metric function by reducing $d_M(\mathnormal{x}_i, \mathnormal{x}_j)$ and enlarging $d_M(\mathnormal{x}_i, \mathnormal{x}_k)$. In our method, the training set of triples $\mathcal{T}$ based on social similarities is defined as:
+\begin{equation}
+\mathcal{T} = \{<i, j, k>|sim_{social}(\mathcal{I}_i, \mathcal{I}_j) >\delta, sim_{social}(\mathcal{I}_i, \mathcal{I}_k) < \epsilon \},
+\label{triple}
+\end{equation}
+where $\delta$ and $\epsilon$ are the thresholds to specify socially similar images and socially dissimilar images. In social media, there are a lot of socially dissimilar images and a few socially similar images. For a given $<x_i, x_j>$, there are a lot of $x_k$ that satisfies the equation \ref{triple}. In our approach we just randomly select some of them to avoid explosion of scale and reduce the redundancy. After the set of of triples $\mathcal{T}$ is selected, we need to find the optimal \emph{Mahanalobis} matrix $M$ that satisfies the following constraints:
+\begin{equation}
+d^2_M (x_i, x_k) - d^2_M (x_i, x_j) > 1, \forall <i,j,k> \in \mathcal{T}
+\label{cons1}
+\end{equation}\vspace{-0.1cm}
+Following the traditional margin-based metric learning methods\cite{lmnn, nips03}, the margin between two distances is defined as the squared error because it is very easy to optimize and have a good performance. In Equation \ref{cons1}, the matrix $M$ that satisfies all the constraints is typically not unique. In this case, we aim to select $M$ that is close to the original unweighted Euclidean Distance, which represents the original visual similarity in our problem. This leads to the following optimization problem:
+\vspace{-0.1cm} \begin{equation} \vspace{-0.1cm}\label{problem1}
+\begin{split}
+&\min_M ||M-I||^2_F\\
+s.t. \quad & d^2_M (x_i, x_k) - d^2_M (x_i, x_j) > 1, \forall <i,j,k> \in \mathcal{T}\\
+&M \succeq 0
+\end{split}
+\end{equation}\vspace{-0.1cm}
+
+where $I$ is the identity matrix with the same dimensions with $M$ and $||\cdot||_F$ donotes \emph{Frobenius} norm. As in other margin-based methods, we add slack variables \cite{slack} to account for the constraints that cannot be satisfied. Thus our problem can be written as follows,
+\vspace{-0.1cm} \begin{equation} \vspace{-0.1cm}\label{problem2}
+\begin{split}
+&\min_M ||M-I||^2_F + C \sum_{i,j,k}sim_{social}(\mathcal{I}_i, \mathcal{I}_j)\epsilon_{ijk}\\
+s.t. \quad & d^2_M (x_i, x_k) - d^2_M (x_i, x_j) > 1 - \epsilon_{ijk}, \forall <i,j,k> \in \mathcal{T}\\
+&M \succeq 0, \quad \epsilon_{ijk} \geq 0
+\end{split}
+\end{equation}\vspace{-0.1cm}
+where $\epsilon_{ijk}$ is the slack variable and $sim_{social}(\mathcal{I}_i, \mathcal{I}_j)$ is the social similarity defined in Equation \ref{social_sim}. $C$ is a parameter that denotes the  stringency of the slack variables. Different from traditional methods, we use social similarity as the coefficient of the slack variables because we have different confidence for different training triples. When the images $\mathcal{I}_i$ and $\mathcal{I}_j$ are very socially similar, i.e. $sim_social(\mathcal{I}_i, \mathcal{I}_j)$ is close to 1, we hope the corresponding constraint to be satisfied as far as possible. On the contrary, when $sim_{social}(\mathcal{I}_i, \mathcal{I}_j)$ is very small, the value of slack variable can be relatively greater. This problem is a Semi-Definite Programming (SDP) problem. It can be solved by the existing solvers \cite{sedumi}.
+
+\vspace{-0.1cm}\subsection{Algorithm and Complexity}
+We summarize the procedure of the whole Social Embedding Image Distance Learning approach as described in Algorithm \ref{alg1}.
+
+\begin{algorithm}[htb] %算法开始
+\caption{Social embedding Image Distance Learning}
+\label{alg1}
+\small
+\KwIn
+{the number of the social factors $m$;\\
+the number of social entities in the $i^{th}$ social factor $f_i$;\\
+the number of the training images $n$;\\
+the visual features $x_i$ and social factors $\mathcal{S}_i=\cup_{k=1}^m \mathcal{V}_i^k$ for each training image $\mathcal{I}_i$}
+\KwOut{
+the \emph{Mahanalobis} matrix $M$ for the distance metric in Equation \ref{distance}.}
+\For{ ($i=1:m$) }{ %下面开始是算法的正文
+    \For {$j=1:f_i -1$}{
+        \For {$k=k+1:f_i$}{
+            {Compute the pair-wise similarity of social entity $sim(v_i^j, v_i^k)$ using Equation \ref{sim1}\; }}}
+     {Conduct spectral clustering on the similarity graph\;}
+    { Compute the reliability score of the social entity $v_i^k$ using Equation \ref{sp}\;}}
+\For{($i=1:n-1$)}{
+    \For {$j = i+1 :n$}{
+        { Compute the social similarity of the training images $sim(I_i, I_j)$ using Equation \ref{social_sim}\;}}}
+{{$\mathcal{T} = \Phi$\;}}
+\For{ $i=1:n$}{
+    \For { $j \in \{j|sim(I_i, I_j) > \delta\}$}{
+        \For {t=1:r}{
+             {Randomly generate $k \in \{1, 2, \cdots, n\}$, $sim(I_i, I_k) < \epsilon$\;}
+             {Add $<i,j,k>$ to $\mathcal{T}$\;}}}}
+{Formulate the Problem in Equation \ref{problem2}\;}
+{Optimize the SDP problem by standard solvers\;}
+\end{algorithm}
+
+There are four main steps in our approach: entity reliability evaluation step, social similarity computation step, triple selection step, and optimization step. In entity reliability evaluation step, the time complexity is $\mathcal{O}(\sum_{i=1}^m f_i^2)$,  $m$ is the number of social factors and $f_i$ is the size of the $i^{th}$ social factor. In social similarity computation step, the complexity is $\mathcal{O}(n^2m)$. In the triple selection step, the time complexity is $\mathcal{O}(r\cdot \sum_{i=1}^n |S_i|)$, where $n$ is the total number of the training images,  $|S_i|$ is the number of the images that are socially similar to the $i^{th}$ image and $r$ is a constant that denotes the number of socially dissimilar images sampled. Usually, we have $|S_i| << n$, thus the complexity of this step is usually much less than $\mathcal{O}(n^2 r)$. In the last optimization step, the complexity of SDP is $\mathcal{O}(c|T|)$, where $c$ is a constant that is determined by the number of iteration and the length of visual features, as well as $|T|$ denotes the number of selected triples. At the same time, we have $|T| \leq n^2 r$. Based on the above analysis, the total complexity  of our algorithm is no more than $\mathcal{O}(crn^2)$. Therefore, the time complexity of our algorithm is square with respect to the number of training images.
+
+\vspace{-0.2cm}\subsection{Applications}
+In image search and recommendation tasks, human cognition plays an important role. Thus, our approach is very useful in these tasks. In this section, we introduce how and why our image distance metric can be used in the corresponding application scenarios.
+\vspace{-0.1cm}\subsubsection{Image recommendation}
+In the image recommendation task, our target is to recommend new images based on his/her historical browsing logs. In our approach, we learn the image distance function from users in social platforms. Then, for general Web images, we can judge whether two images will have similar favored users according to their visual contents. Given a set of images $Train = \{I_1, I_2, \cdots, I_m\}$ that have been viewed by the current user, we need to recommend the top $k$ images in the candidate set $Test = \{J_1, J_2, \cdots, J_n\}$. Intuitively, the image that are similar to the images in $Train$ should be recommended. In our distance learning method, when the optimal \emph{Mahanalobis} matrix $M$ is obtained, the pair-wise image distance $d_M(I_i, I_j)$ can be calculated accordingly. Thus, the next question is how to select the images that are similar to the training set based on the distance function. Here we provide the Borda Fusion model to solve the problem.
+
+Borda Count has been widely used in meta-search and recommendation \cite{borda}. It simulates a democratic voting process: each voter gives a preference rank to $d$ candidates; the top ranked candidate gets $d$ points, the second ranked one gets $d-1$ points and so on so forth. Then, for each candidate, the total points from all voters are used for ranking. The top $k$ results are returned for recommendation. In this model, each image in the training data is regarded as a voter. For each training image, we calculate the distance from it to the testing images $J_q$ in $Test$. Then, the distance $d_M(I_p, J_q)$ are ranked in ascending order. The top $d$ test images obtain their points. Finally, after all the training images in $Train$ are traversed, we rank the testing images in $Test$ with respect to their total points. We return the top $k$ images as the recommendation results.
+
+To notice, our recommendation process is purely content-based. Thus, in this paper, we do not compare our method to other user-centric recommendation methods such as \emph{Collaborative Filtering (CF)} because we do not need any user information.  In addition, as CF suffers from cold-start problem, hybrid recommendation (e.g. CF+content-based) becomes more popular, where image distance metric is also a fundamental problem.
+\vspace{-0.3cm}\subsubsection{Image reranking}
+When people search a query in the image search website, the search engine will return a lot of images that are judged as relevant to the query.  Reranking the images to better meet the demands of users is an important problem. Jing \emph{et al.} \cite{visualrank} proposed a VisualRank method for image reranking. In this method, the similarity of two images are evaluated by their visual features. Then, a PageRank \cite{pagerank} based iterative calculation is conducted to give the images rank scores. This method selects the images that are visually similar to most of the other images. It has been proven that VisualRank performs well in product search. However, in general image search task, the performance is not very desirable because it ignores human cognition factor. Our approach learns the social similarity, which can better estimate human cognition. In our approach, the pair-wise image similarity is evaluated by the learned distance function $d_M(\mathcal{I}_i, \mathcal{I}_j)$. The PageRank model is used to select the images that are interesting to most of the users.
+
+ In this method, we first generate the image similarity matrix $P$, whose elements are calculated as:
+\vspace{-0.1cm} \begin{equation} \vspace{-0.1cm}
+P_{ij} = \frac{e^{-d_M(\mathnormal{x}_i, \mathnormal{x}_j)}}{\sum_{k=1}^n e^{-d_M(\mathnormal{x}_k, \mathnormal{x}_j)}}
+\end{equation}
+where $d_M(\mathnormal{x}_i, \mathnormal{x}_j)$ is the learned \emph{Mahanalobis} distance in Equation \ref{distance}, $n$ is the number of candidate images. Here we use negative exponent function to convert distance to similarity and chose $\sigma^2 = 0.5$. The denominator aims at normalizing the sum of each column to 1. Then, the PageRank process is conducted:
+\vspace{-0.1cm} \begin{equation} \vspace{-0.1cm}\label{reranking_eq}
+\mathnormal{pr} = d\cdot P\cdot \mathnormal{pr} + (1-d)\mathnormal{e}
+\end{equation}
+where $\mathnormal{pr}$ denotes the rank score vector, $d$ is the damping factor to guarantee the connectivity of the similarity graph, and $e$ is a normalized $n$-dimension vector whose elements are all $1/n$. In PageRank, the empirical value of $d$ is about $0.8$. After the PageRank process, each image has a rank score in $\mathnormal{pr}$. Finally we can rerank images by their rank scores.
+
+
