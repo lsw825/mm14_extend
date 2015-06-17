@@ -1,5 +1,8 @@
-*
-!*.tex
-!*.pdf
-!*.eps
-!*.xlsx
+*.bak
+*.log
+*.zip
+*.png
+*.sav
+*.gz
+*.dvi
+*.blg
