@@ -1,0 +1,328 @@
+@article{c101,
+  title={Learning generative visual models from few training examples: An incremental bayesian approach tested on 101 object categories},
+  author={Fei-Fei, Li and Fergus, Rob and Perona, Pietro},
+  journal={CVIU},
+  volume={106},
+  number={1},
+  pages={59--70},
+  year={2007},
+  publisher={Elsevier}
+}
+
+@article{tau,
+  title={A new measure of rank correlation.},
+  author={Kendall, Maurice G},
+  journal={Biometrika},
+  year={1938}
+}
+
+@misc{sedumi,
+title = {{CVX}: Matlab Software for Disciplined Convex Programming, version 2.0 beta},
+author = {Michael Grant and Stephen Boyd},
+url = {http://cvxr.com/cvx},
+year = {2013},
+date = {2013-09-01},
+howpublished = {http://cvxr.com/cvx},
+keywords = {Matlab, SeDuMi, semidefinite programming}
+}
+
+@inproceedings{click2,
+  author    = {Teresa Bracamonte and
+               Barbara Poblete},
+  title     = {Automatic image tagging through information propagation
+               in a query log based graph structure},
+  booktitle = {ACM Multimedia},
+  year      = {2011},
+  pages     = {1201-1204}
+}
+
+@article{click1,
+  title={Search log analysis: What it is, what's been done, how to do it},
+  author={Jansen, Bernard J},
+  journal={Library \& information science research},
+  volume={28},
+  number={3},
+  pages={407--432},
+  year={2006}
+}
+
+@inproceedings{click_bing,
+  author    = {Xian-Sheng Hua and
+               Linjun Yang and
+               Jingdong Wang and
+               Jing Wang and
+               Ming Ye and
+               Kuansan Wang and
+               Yong Rui and
+               Jin Li},
+  title     = {Clickage: towards bridging semantic and intent gaps via
+               mining click logs of search engines},
+  booktitle = {ACM Multimedia},
+  year      = {2013},
+  pages     = {243-252}
+}
+
+@article{lmnn,
+  title={Distance metric learning for large margin nearest neighbor classification},
+  author={Weinberger, Kilian Q and Saul, Lawrence K},
+  journal={The Journal of Machine Learning Research},
+  volume={10},
+  pages={207--244},
+  year={2009}
+}
+
+@inproceedings{social_visual,
+  title={Social visual image ranking for web image search},
+  author={Liu, Shaowei and Cui, Peng and Luan, Huanbo and Zhu, Wenwu and Yang, Shiqiang and Tian, Qi},
+  booktitle={MMM},
+  pages={239--249},
+  year={2013},
+  publisher={Springer}
+}
+
+@inproceedings{query_ana1,
+  author    = {Liqiang Nie and
+               Shuicheng Yan and
+               Meng Wang and
+               Richang Hong and
+               Tat-Seng Chua},
+  title     = {Harvesting visual concepts for image search with complex
+               queries},
+  booktitle = {ACM Multimedia},
+  year      = {2012},
+  pages     = {59-68}
+}
+
+@article{query_ana2,
+  title={Active reranking for web image search},
+  author={Tian, Xinmei and Tao, Dacheng and Hua, Xian-Sheng and Wu, Xiuqing},
+  journal={TIP},
+  volume={19},
+  number={3},
+  pages={805--820},
+  year={2010},
+  publisher={IEEE}
+}
+
+@article{rf,
+  title={Relevance feedback: a power tool for interactive content-based image retrieval},
+  author={Rui, Yong and Huang, Thomas S and Ortega, Michael and Mehrotra, Sharad},
+  journal={CSVT},
+  volume={8},
+  number={5},
+  pages={644--655},
+  year={1998}
+}
+
+@inproceedings{visual_suggestion,
+  title={Visual query suggestion},
+  author={Zha, Zheng-Jun and Yang, Linjun and Mei, Tao and Wang, Meng and Wang, Zengfu},
+  booktitle={ACM Multimedia},
+  pages={15--24},
+  year={2009},
+}
+
+@inproceedings{attribute_feedback,
+  title={Attribute feedback},
+  author={Zhang, Hanwang and Zha, Zheng-Jun and Yan, Shuicheng and Bian, Jingwen and Chua, Tat-Seng},
+  booktitle={ACM Multimedia},
+  pages={79--88},
+  year={2012},
+  organization={ACM}
+}
+
+@inproceedings{semi_super_metric,
+  title={Semi-supervised distance metric learning for collaborative image retrieval},
+  author={Hoi, Steven CH and Liu, Wei and Chang, Shih-Fu},
+  booktitle={CVPR},
+  pages={1--7},
+  year={2008},
+  organization={IEEE}
+}
+
+@article{super_metric1,
+  title={Distance metric learning: A comprehensive survey},
+  author={Yang, Liu and Jin, Rong},
+  journal={Michigan State Universiy},
+  volume={2},
+  year={2006}
+}
+
+@inproceedings{super_metric2,
+  title={Learning distance metrics with contextual constraints for image retrieval},
+  author={Hoi, Steven CH and Liu, Wei and Lyu, Michael R and Ma, Wei-Ying},
+  booktitle={CVPR},
+  pages={2072--2078},
+  year={2006},
+  organization={IEEE}
+}
+
+@inproceedings{borda,
+  title={Models for metasearch},
+  author={Aslam, Javed A and Montague, Mark},
+  booktitle={ACM SIGIR},
+  pages={276--284},
+  year={2001},
+  organization={ACM}
+}
+
+@article{visualrank,
+  title={Visualrank: Applying pagerank to large-scale image search},
+  author={Jing, Yushi and Baluja, Shumeet},
+  journal={PAMI},
+  volume={30},
+  number={11},
+  pages={1877--1890},
+  year={2008},
+  publisher={IEEE}
+}
+
+@article{pagerank,
+  title={The PageRank citation ranking: Bringing order to the web.},
+  author={Page, Lawrence and Brin, Sergey and Motwani, Rajeev and Winograd, Terry},
+  year={1999},
+  publisher={Stanford InfoLab}
+}
+
+@inproceedings{bow,
+  title={Descriptive visual words and visual phrases for image applications},
+  author={Zhang, Shiliang and Tian, Qi and Hua, Gang and Huang, Qingming and Li, Shipeng},
+  booktitle={ACM Multimedia},
+  pages={75--84},
+  year={2009},
+  organization={ACM}
+}
+
+
+@inproceedings{vlfeat,
+  title={http://www.vlfeat.org},
+}
+
+@inproceedings{sift,
+  title={Object recognition from local scale-invariant features},
+  author={Lowe, David G},
+  booktitle={ICCV},
+  volume={2},
+  pages={1150--1157},
+  year={1999},
+  organization={Ieee}
+}
+
+@inproceedings{tagprop,
+  title={Tagprop: Discriminative metric learning in nearest neighbor models for image auto-annotation},
+  author={Guillaumin, Matthieu and Mensink, Thomas and Verbeek, Jakob and Schmid, Cordelia},
+  booktitle={ICCV},
+  pages={309--316},
+  year={2009},
+  organization={IEEE}
+}
+
+@article{jaccard,
+  title={Genetic distance between populations},
+  author={Nei, Masatoshi},
+  journal={American naturalist},
+  pages={283--292},
+  year={1972},
+  publisher={JSTOR}
+}
+
+@article{cbf,
+  title={A framework for collaborative, content-based and demographic filtering},
+  author={Pazzani, Michael J},
+  journal={Artificial Intelligence Review},
+  volume={13},
+  number={5-6},
+  pages={393--408},
+  year={1999},
+  publisher={Springer}
+}
+
+@inproceedings{nips03,
+  title={Learning a Distance Metric from Relative Comparisons.},
+  author={Schultz, Matthew and Joachims, Thorsten},
+  booktitle={NIPS},
+  year={2003}
+}
+
+@article{slack,
+  title={Support-vector networks},
+  author={Cortes, Corinna and Vapnik, Vladimir},
+  journal={Machine learning},
+  volume={20},
+  number={3},
+  pages={273--297},
+  year={1995},
+  publisher={Springer}
+}
+
+@article{tag1,
+  title={Learning social tag relevance by neighbor voting},
+  author={Li, Xirong and Snoek, Cees GM and Worring, Marcel},
+  journal={TMM},
+  volume={11},
+  number={7},
+  pages={1310--1322},
+  year={2009},
+  publisher={IEEE}
+}
+
+@inproceedings{tag2,
+  title={Flickr tag recommendation based on collective knowledge},
+  author={Sigurbj{\"o}rnsson, B{\"o}rkur and Van Zwol, Roelof},
+  booktitle={WWW},
+  pages={327--336},
+  year={2008},
+  organization={ACM}
+}
+
+@article{cognitive,
+  title={The cognitive impact of past behavior: influences on beliefs, attitudes, and future behavioral decisions.},
+  author={Albarracin, Dolores and Wyer Jr, Robert S},
+  journal={Journal of personality and social psychology},
+  volume={79},
+  number={1},
+  pages={5},
+  year={2000},
+  publisher={American Psychological Association}
+}
+
+@article{zheng2013visual,
+title={Visual Phraselet: Refining Spatial Constraints for Large Scale Image Search},
+author={Zheng, Liang and Wang, Shengjin},
+journal={Signal Processing Letters, IEEE},
+volume={20},
+number={4},
+pages={391--394},
+year={2013},
+publisher={IEEE}
+}
+
+@article{cui2014,
+  title={Social-Sensed Image Search},
+  author={Cui, Peng and Liu, Shao-Wei and Zhu, Wen-Wu and Luan, Huan-Bo and Chua, Tat-Seng and Yang, Shi-Qiang},
+  journal={ACM TOIS},
+  volume={32},
+  number={2},
+  pages={8},
+  year={2014},
+  publisher={ACM}
+}
+@inproceedings{mingdong,
+  title={Comparing apples to oranges: a scalable solution with heterogeneous hashing},
+  author={Ou, Mingdong and Cui, Peng and Wang, Fei and Wang, Jun and Zhu, Wenwu and Yang, Shiqiang},
+  booktitle={Proceedings of the 19th ACM SIGKDD international conference on Knowledge discovery and data mining},
+  pages={230--238},
+  year={2013},
+  organization={ACM}
+}
+
+@article{zhiwang,
+  title={Bilateral Correspondence Model for Words-and-Pictures Association in Multimedia-Rich Microblogs},
+  author={Wang, Zhiyu and Cui, Peng and Xie, Lexing and Zhu, Wenwu and Rui, Yong and Yang, Shiqiang},
+  journal={ACM Transactions on Multimedia Computing, Communications, and Applications (TOMM)},
+  volume={10},
+  number={4},
+  pages={34},
+  year={2014},
+  publisher={ACM}
+}

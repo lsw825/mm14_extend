@@ -1,0 +1,4 @@
+The contributions of our proposed approach are summerized as follows:
+(1) We propose a novel image distance learning approach, which aims at bridging the intention gap in image distance measuring. To the best of our knowledge, we are the first who use the user behavior information to solve this problem. 
+
+(2) In our approach, an image distance metric function based on visual features is learned to make the image distance consistent to the user behavior. 

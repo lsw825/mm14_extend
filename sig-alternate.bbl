@@ -1,0 +1,163 @@
+\begin{thebibliography}{10}
+
+\bibitem{vlfeat}
+http://www.vlfeat.org.
+
+\bibitem{cognitive}
+D.~Albarracin and R.~S. Wyer~Jr.
+\newblock The cognitive impact of past behavior: influences on beliefs,
+  attitudes, and future behavioral decisions.
+\newblock {\em Journal of personality and social psychology}, 79(1):5, 2000.
+
+\bibitem{borda}
+J.~A. Aslam and M.~Montague.
+\newblock Models for metasearch.
+\newblock In {\em ACM SIGIR}, pages 276--284. ACM, 2001.
+
+\bibitem{slack}
+C.~Cortes and V.~Vapnik.
+\newblock Support-vector networks.
+\newblock {\em Machine learning}, 20(3):273--297, 1995.
+
+\bibitem{cui2014}
+P.~Cui, S.-W. Liu, W.-W. Zhu, H.-B. Luan, T.-S. Chua, and S.-Q. Yang.
+\newblock Social-sensed image search.
+\newblock {\em ACM TOIS}, 32(2):8, 2014.
+
+\bibitem{c101}
+L.~Fei-Fei, R.~Fergus, and P.~Perona.
+\newblock Learning generative visual models from few training examples: An
+  incremental bayesian approach tested on 101 object categories.
+\newblock {\em CVIU}, 106(1):59--70, 2007.
+
+\bibitem{sedumi}
+M.~Grant and S.~Boyd.
+\newblock {CVX}: Matlab software for disciplined convex programming, version
+  2.0 beta.
+\newblock http://cvxr.com/cvx, 2013.
+
+\bibitem{tagprop}
+M.~Guillaumin, T.~Mensink, J.~Verbeek, and C.~Schmid.
+\newblock Tagprop: Discriminative metric learning in nearest neighbor models
+  for image auto-annotation.
+\newblock In {\em ICCV}, pages 309--316. IEEE, 2009.
+
+\bibitem{semi_super_metric}
+S.~C. Hoi, W.~Liu, and S.-F. Chang.
+\newblock Semi-supervised distance metric learning for collaborative image
+  retrieval.
+\newblock In {\em CVPR}, pages 1--7. IEEE, 2008.
+
+\bibitem{click_bing}
+X.-S. Hua, L.~Yang, J.~Wang, J.~Wang, M.~Ye, K.~Wang, Y.~Rui, and J.~Li.
+\newblock Clickage: towards bridging semantic and intent gaps via mining click
+  logs of search engines.
+\newblock In {\em ACM Multimedia}, pages 243--252, 2013.
+
+\bibitem{click1}
+B.~J. Jansen.
+\newblock Search log analysis: What it is, what's been done, how to do it.
+\newblock {\em Library \& information science research}, 28(3):407--432, 2006.
+
+\bibitem{visualrank}
+Y.~Jing and S.~Baluja.
+\newblock Visualrank: Applying pagerank to large-scale image search.
+\newblock {\em PAMI}, 30(11):1877--1890, 2008.
+
+\bibitem{tau}
+M.~G. Kendall.
+\newblock A new measure of rank correlation.
+\newblock {\em Biometrika}, 1938.
+
+\bibitem{tag1}
+X.~Li, C.~G. Snoek, and M.~Worring.
+\newblock Learning social tag relevance by neighbor voting.
+\newblock {\em TMM}, 11(7):1310--1322, 2009.
+
+\bibitem{social_visual}
+S.~Liu, P.~Cui, H.~Luan, W.~Zhu, S.~Yang, and Q.~Tian.
+\newblock Social visual image ranking for web image search.
+\newblock In {\em MMM}, pages 239--249. Springer, 2013.
+
+\bibitem{sift}
+D.~G. Lowe.
+\newblock Object recognition from local scale-invariant features.
+\newblock In {\em ICCV}, volume~2, pages 1150--1157. Ieee, 1999.
+
+\bibitem{jaccard}
+M.~Nei.
+\newblock Genetic distance between populations.
+\newblock {\em American naturalist}, pages 283--292, 1972.
+
+\bibitem{query_ana1}
+L.~Nie, S.~Yan, M.~Wang, R.~Hong, and T.-S. Chua.
+\newblock Harvesting visual concepts for image search with complex queries.
+\newblock In {\em ACM Multimedia}, pages 59--68, 2012.
+
+\bibitem{mingdong}
+M.~Ou, P.~Cui, F.~Wang, J.~Wang, W.~Zhu, and S.~Yang.
+\newblock Comparing apples to oranges: a scalable solution with heterogeneous
+  hashing.
+\newblock In {\em ACM SIGKDD}, pages 230--238. ACM, 2013.
+
+\bibitem{pagerank}
+L.~Page, S.~Brin, R.~Motwani, and T.~Winograd.
+\newblock The pagerank citation ranking: Bringing order to the web.
+\newblock 1999.
+
+\bibitem{cbf}
+M.~J. Pazzani.
+\newblock A framework for collaborative, content-based and demographic
+  filtering.
+\newblock {\em Artificial Intelligence Review}, 13(5-6):393--408, 1999.
+
+\bibitem{rf}
+Y.~Rui, T.~S. Huang, M.~Ortega, and S.~Mehrotra.
+\newblock Relevance feedback: a power tool for interactive content-based image
+  retrieval.
+\newblock {\em CSVT}, 8(5):644--655, 1998.
+
+\bibitem{nips03}
+M.~Schultz and T.~Joachims.
+\newblock Learning a distance metric from relative comparisons.
+\newblock In {\em NIPS}, 2003.
+
+\bibitem{zhiwang}
+Z.~Wang, P.~Cui, L.~Xie, W.~Zhu, Y.~Rui, and S.~Yang.
+\newblock Bilateral correspondence model for words-and-pictures association in
+  multimedia-rich microblogs.
+\newblock {\em ACM TOMM}, 10(4):34, 2014.
+
+\bibitem{lmnn}
+K.~Q. Weinberger and L.~K. Saul.
+\newblock Distance metric learning for large margin nearest neighbor
+  classification.
+\newblock {\em The Journal of Machine Learning Research}, 10:207--244, 2009.
+
+\bibitem{super_metric1}
+L.~Yang and R.~Jin.
+\newblock Distance metric learning: A comprehensive survey.
+\newblock {\em Michigan State Universiy}, 2, 2006.
+
+\bibitem{visual_suggestion}
+Z.-J. Zha, L.~Yang, T.~Mei, M.~Wang, and Z.~Wang.
+\newblock Visual query suggestion.
+\newblock In {\em ACM Multimedia}, pages 15--24, 2009.
+
+\bibitem{attribute_feedback}
+H.~Zhang, Z.-J. Zha, S.~Yan, J.~Bian, and T.-S. Chua.
+\newblock Attribute feedback.
+\newblock In {\em ACM Multimedia}, pages 79--88. ACM, 2012.
+
+\bibitem{bow}
+S.~Zhang, Q.~Tian, G.~Hua, Q.~Huang, and S.~Li.
+\newblock Descriptive visual words and visual phrases for image applications.
+\newblock In {\em ACM Multimedia}, pages 75--84. ACM, 2009.
+
+\bibitem{zheng2013visual}
+L.~Zheng and S.~Wang.
+\newblock Visual phraselet: Refining spatial constraints for large scale image
+  search.
+\newblock {\em Signal Processing Letters, IEEE}, 20(4):391--394, 2013.
+
+\end{thebibliography}

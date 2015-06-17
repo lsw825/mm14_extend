@@ -1,0 +1,1 @@
+The main text file is sig-alternate.tex. sigproc.bib is the reference bib file.
