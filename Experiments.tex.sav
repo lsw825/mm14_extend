@@ -41,7 +41,30 @@ In the area of image processing, there are a variety of methods for image search
 The code of our algorithm is realized in MATLAB 2010b. The toolbox of VLFeat \cite{vlfeat} is used for SIFT feature extraction and hierarchical $k$-means clustering of visual words. We use SeDuMi \cite{sedumi} toolbox as the solver of the proposed optimization problem.  All the experiments were conducted on a server with Intel(R) Xeon(R) CPU X5645 at 2.40 GHz on 24 cores, 192GB RAM and 64-bit Windows Server 2008 operating system.
 
 %需要注明 不和其他的recommendation还有search的方法比，因为本文需要证明的是distance learning的有效性。
-\vspace{-0.2cm}\subsection{Effectiveness of SIDL}
+\vspace{-0.2cm}\subsection{Effectiveness in Predicting User Favorite Images}
+%整章改一下。。。
+
+\begin{table}[htb]
+\caption{The performance on favor behavior prediction dataset in $RMSE$, $Precision@k$, and $Kendall-\tau$ for different image representation methods. }
+\hspace{-0.5cm}\begin{tabular}{|c|c|c|c|c|}
+\hline
+& $RMSE$ & $P@3$ & $P@10$ & $Kendall-\tau$\\
+\hline
+BoW \cite{bow} &0.4368&0.1201&0.2855&0.057\\
+\hline
+SIDL \cite{sidl}& 0.3345&0.2347&0.3451&0.3939\\
+\hline
+AlexNet \cite{alex}& 0.347&0.2099&0.3362&0.3467\\
+\hline
+SEVIR\_soc &0.3199&0.2289&0.353&0.3751\\
+\hline
+SEVIR\_soc+sem & \textbf{0.2857}&\textbf{0.2556}&\textbf{0.4061}&\textbf{0.4277}\\
+\hline
+\end{tabular}
+\label{result1}
+\end{table}
+
+
 The goal of our approach is to learn the social similarity in visual space. Thus, we first need to prove the feasibility of this idea. When we have learned a distance function from the training set, can this function reflect the social similarity in the test data? Here we evaluate the effectiveness in ranking because ranking order is much more important than absolute value in our problem. For a given image in the test dataset, we calculate the social similarity to the other images by Equation \ref{social_sim} and then can obtain a rank order as ground truth. On the other hand, we can calculate the image distance based on the learned distance function by Equation \ref{distance} and get another rank order of similar images. The consistency of these two orders can reflect the effectiveness of our method. We use $Kendall-\tau$ rank correlation \cite{tau} as the evaluation measure. Give two ranking sequence $X$ and $Y$. The $Kendall-\tau$ is defined as:
 \vspace{-0.1cm} \begin{equation} \vspace{-0.1cm}
 \tau = \frac{n_c - n_d}{\frac{1}{2}n(n-1)},

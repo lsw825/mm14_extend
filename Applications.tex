@@ -50,6 +50,9 @@ s.t. \quad & d^2_M (x_i, x_k) - d^2_M (x_i, x_j) > 1 - \epsilon_{ijk}, \forall <
 \end{equation}\vspace{-0.1cm}
 where $\epsilon_{ijk}$ is the slack variable and $sim_{social}(\mathcal{I}_i, \mathcal{I}_j)$ is the social similarity defined in Equation \ref{social_sim}. $C$ is a parameter that denotes the  stringency of the slack variables. Different from traditional methods, we use social similarity as the coefficient of the slack variables because we have different confidence for different training triples. When the images $\mathcal{I}_i$ and $\mathcal{I}_j$ are very socially similar, i.e. $sim_social(\mathcal{I}_i, \mathcal{I}_j)$ is close to 1, we hope the corresponding constraint to be satisfied as far as possible. On the contrary, when $sim_{social}(\mathcal{I}_i, \mathcal{I}_j)$ is very small, the value of slack variable can be relatively greater. This problem is a Semi-Definite Programming (SDP) problem. It can be solved by the existing solvers \cite{sedumi}.
 
+\subsection{Social Embedding Image Distance Learning with Kernel Learning}
+Very often a linear projection cannot make the visual space and social space consistent.  
+
 \vspace{-0.1cm}\subsection{Algorithm and Complexity}
 We summarize the procedure of the whole Social Embedding Image Distance Learning approach as described in Algorithm \ref{alg1}.
 
